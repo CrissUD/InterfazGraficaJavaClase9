@@ -12,13 +12,14 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 
 * Identificar los usos principales de los eventos del Mouse para añadirle interactividad a nuestra interfaz gráfica hacia el usuario.
 * Reconocer el enfoque de discriminación por tipo de clases para manejar la interactividad con diferentes objetos gráficos a la vez desde un método implementado de eventos.
+* Examinar la posibilidad de cambiar el estado de diferentes objetos gráficos desde un objeto gráfico que ha activado un evento.
 * Comprender el uso combinado de diferentes métodos implementados de eventos para realizar acciónes de interactividad a nuestras interfaces gráficas.
 
 # Antes de Comenzar
 
 Para continuar con el ejercicio deberá actualizar la carpeta **resources/img** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase9** seguido de **resources/img**.
 
-* Vamos a crear un nuevo color en el servicio **RecursosService**, recordamos el proceso de creación de un objeto gráfico dentro de este servicio:
+* Vamos a crear un nuevo color en el servicio **RecursosService**, recordamos el proceso de creación de un objeto decorador dentro de este servicio:
 
 **Declaración:**
 ```javascript
@@ -48,7 +49,7 @@ private Border borderInferiorGris;
 **Ejemplificación:**
 ```javascript
 // Dentro del Constructor
-borderInferiorGris = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY);
+borderInferiorGris = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY);
 ```
 
 **Método get:**
@@ -91,11 +92,12 @@ Recordando un poco nuestro recorrido hemos construido nuestro componente **Confi
 
 En esta clase vamos a ver la implementación de los diferentes eventos del Mouse dentro de todo nuestro proyecto, paralelamente vamos a ver algunos temas de importancia que están relacionados con el uso de estos eventos. Los items de esta clase serán entonces: 
 
-* **Representación única de una clase de objetos gráficos**
+* **Representación única para objetos gráficos de una misma Clase**
 * **Discriminación de Clases**
 * **Efectos hacia otros objetos Gráficos**
 * **Uso combinado de varios Métodos implementados de eventos**
-# Representación única de una clase de varios objetos gráficos
+
+# Representación única para objetos gráficos de una misma Clase
 
 Vamos a empezar ubicándonos en nuestro componente **NavegaciónUsuario** y específicamente en su clase **NavegacionUsuarioComponent**. En este caso queremos darle algo de interactividad a los botones de la navegación ya que estos realmente están estáticos. Queremos cambiar su color de fondo una vez el usuario pase con el mouse por encima de ellos. Lo primero que vamos a hacer es añadir la implementación de la interfaz **MouseListener**:
 
@@ -134,11 +136,11 @@ this.bConfiguracion.addMouseListener(navegacionUsuarioComponent);
 this.bCerrarSesion.addMouseListener(navegacionUsuarioComponent);
 ```
 
-***Nota:** Recordemos que en el anterior código se ven todas estas lineas juntas sin embargo estos son métodos de configuración por lo que cada una de ellas debe estar organizado junto al proceso de creación de su respectivo botón.*
+***Nota:** Recordemos que en el anterior código se ven todas estas lineas juntas sin embargo estos son métodos de configuración por lo que cada una de ellas debe estar organizada junto al proceso de creación de su respectivo botón.*
 
 Como nuestra clase **NavegacionUsuarioComponent** ahora implementa a la interfaz **MouseListener** es posible ingresar como argumento al objeto que representa esta clase dentro del método **addMouseListener**.
 
-vamos a probar el evento con un solo botón por ahora, para ello primero debemos realizar el método **get** del botón **bInicio** en la clase **Template** del componente:
+Vamos a probar el evento con un solo botón por ahora, para ello primero debemos realizar el método **get** del botón **bInicio** en la clase **Template** del componente:
 
 ```javascript
 public JButton getBInicio(){
@@ -157,7 +159,7 @@ public void mouseEntered(MouseEvent e) {
 }
 ```
 
-* Para obtener el botón desde la clase **Template** es necesario llamar al método **get** correspondiente: 
+* Para obtener el botón debemos usar el objeto de la clase **Template** y llamar al método **get** correspondiente: 
 
 ```javascript
 public void mouseEntered(MouseEvent e) {
@@ -167,7 +169,7 @@ public void mouseEntered(MouseEvent e) {
 }
 ```
 
-* Una vez obtenido el botón podemos agregarle color de fondo.Para poder agregarle color a nuestro botón debemos agregarle antes las propiedades de contenedor de botón nuevamente y luego si cambiar el color de fondo ya que recordemos que en el momento de su construcción se configuró este con características de transparencia por lo que si le cambiamos simplemente el color no sera reflejado:
+* Una vez obtenido el botón podemos agregarle color de fondo, para poder agregarle color a nuestro botón debemos agregarle antes las propiedades de contenedor de botón nuevamente y luego si cambiar el color de fondo ya que recordemos que en el momento de su construcción se configuró este con características de transparencia por lo que si le cambiamos simplemente el color no sera reflejado:
 
 ```javascript
 public void mouseEntered(MouseEvent e) {
@@ -217,7 +219,7 @@ Ahora podríamos realizar el anterior proceso  con los demás botones dentro de 
 * En esta navegación solo contamos con 6 botones sin embargo si un menu contara con 20 botónes o incluso más habría que crear mucho código para representar el mismo comportamiento para cada uno de los botones lo cual hace que nuestro código sea mas difícil de entender y mantener. Esto implicaría crear un método **get** dentro de la clase Template por cada botón, crear un nuevo if dentro de los métodos de los eventos usados para realizar la discriminación por objeto y realizar exactamente las mismas lineas de código por cada botón. **!Esto es demasiado código para una misma acción!**.
 * Este caso particular se diferencia al caso en que todos los botones realizarían una misma acción y en la cual simplemente se escribía el código dentro del método sin ningún tipo de discriminación. En este caso eso no es posible, ya que es necesario indicar a que botón se le va a cambiar el color y en que momento. Si por otro lado el evento buscará que al pasar por cada botón se abriera una ventana emergente con el mismo mensaje para todos los botones esto seria posible. Sin embargo, como vamos a cambiar configuraciónes de un objeto gráfico en especifico en un momento especifico se debe realizar una discriminación.
 
-Si tenemos que realizar una discriminación de objetos obligatoriamente pero no queremos tener una cantidad extensa de código **¿Cómo podemos resolver esta situación?**. Aquí entra en juego la **Representación única de una clase de objetos gráficos**. Para entender este concepto vamos a implementarlo en el código y lo iremos explicando en el proceso.
+Si tenemos que realizar una discriminación de objetos obligatoriamente pero no queremos tener una cantidad extensa de código **¿Cómo podemos resolver esta situación?**. Aquí entra en juego la **Representación única para objetos gráficos de una misma Clase**. Para entender este concepto vamos a implementarlo en el código y lo iremos explicando en el proceso.
 
 Nos ubicamos dentro de la clase **NavegacionUsuarioComponent**, nos posicionamos en el método **mouseEntered** y vamos a crear una variable tipo **JButton** en este caso la llamaremos boton:
 
@@ -230,7 +232,7 @@ public void mouseEntered(MouseEvent e) {
     // } 
 }
 ```
-Noten que el resto del código se comento ya que no sera necesario por ahora. Vamos a implementar a continuación la **Representación única de una clase de objetos gráficos** y luego a explicarla:
+Noten que el resto del código se comento ya que no sera necesario por ahora. Vamos a implementar a continuación la **Representación única para objetos gráficos de una misma Clase** y luego a explicarla:
 
 ```javascript
 public void mouseEntered(MouseEvent e) {
@@ -243,13 +245,13 @@ public void mouseEntered(MouseEvent e) {
 ```
 
 En el anterior código se realizo lo siguiente:
-* A traves del objeto de evento **e** se obtiene el objeto que ha activado el evento esto mediante el método **getSource**.
-* Sin embargo el evento **getSource** va a retornar al objeto con un tipo de dato **Object** es decir la forma general del objeto pero es necesario especificar el tipo de clase a la cual pertenece  el objeto que activo el evento. Para esto realizamos un **Cast** o cambio de tipado obligatorio de objeto, convirtiéndolo a un **JButton**.
+* A traves del objeto de evento **e** se obtiene el objeto que ha activado el evento, esto mediante el método **getSource**.
+* El método **getSource** va a retornar al objeto con el tipo de dato **Object** es decir su forma mas general del objeto, por eso es necesario especificar el tipo de clase a la cual pertenece  el objeto que activo el evento. Para esto realizamos un **Cast** o cambio de tipado obligatorio de objeto, convirtiéndolo a un **JButton**.
 * Una vez se convirtió el objeto se iguala al objeto variable que creamos previamente.
 
 Esto implica que nuestra variable **boton** va tener la capacidad de representar cualquier botón que active el evento. Este es un concepto muy poderoso y una solución perfecta a la situación planteada. Ahora solo basta con indicarle a nuestro botón que le vamos a cambiar el color de fondo:
 
-***Nota:** Podemos borrar el anterior código ya que no lo necesitamos.*
+***Nota:** Podemos borrar el anterior código comentado ya que no lo necesitamos.*
 
 ```javascript
 public void mouseEntered(MouseEvent e) {
@@ -267,11 +269,13 @@ public void mouseExited(MouseEvent e) {
 }
 ```
 
+***Nota:** También podemos borrar el método **get** del primer botón creado con anterioridad en la clase **NavegacionUsuarioTemplate** ya que no lo usaremos para nada.*
+
 Ahora hemos representado e implementado el mismo comportamiento para varios botones en unas cuantas lineas de código y para comprobarlo podemos abrir nuestra aplicación:
 
 <div align='center'>
     <img  src='./resources/MouseEvent2.gif'>
-    <p>Implementación de representación única de objetos gráficos</p>
+    <p>Implementación de Representación única para objetos gráficos de una misma Clase</p>
 </div>
 
 # Discriminación de Clases
@@ -311,7 +315,7 @@ lTituloLogin.addMouseListener(this.loginComponent);
 lNotificaciones.addMouseListener(this.loginComponent);
 ```
 
-***Nota:** Recordemos que en el anterior código se ven todas estas lineas juntas sin embargo estos son métodos de configuración por lo que cada una de ellas debe estar organizado junto al proceso de creación de su respectivo botón y label.*
+***Nota:** Recordemos que en el anterior código se ven todas estas lineas juntas sin embargo estos son métodos de configuración por lo que cada una de ellas debe estar organizada junto al proceso de creación de su respectivo botón y label.*
 
 Ademas vamos a crear un nuevo método **get** donde vamos a disponer al servicio **RecursosService** y de esta forma la clase **LoginComponent** pueda interactuar con el servicio sin la necesidad de obtenerlo:
 ```javascript
@@ -320,11 +324,11 @@ public RecursosService getRecursosService(){
 }
 ```
 
-Cuando realizábamos eventos de acción mediante un **ActionListener** solo debíamos preocuparnos por la discriminación a nivel de objetos ya que solo utilizábamos a los botones para gestionar estos eventos. Sin embargo, cuando queremos que diferentes tipos de Objetos hagan un comportamiento basado en un mismo evento como es este caso donde los botones y los Labels realizaran un comportamiento basado en un mismo evento, es necesario realizar una **Discriminación de clases**.
+Cuando realizábamos eventos de acción mediante un **ActionListener** solo debíamos preocuparnos por la discriminación a nivel de objetos ya que solo utilizábamos a los botones para gestionar estos eventos. Sin embargo, cuando queremos que diferentes objetos de distintos tipos de clases hagan un comportamiento basado en un mismo evento como es este caso donde los botones y los Labels realizarán una acción basada en un mismo evento, es necesario realizar una **Discriminación de clases**.
 
-Vamos a ubicarnos en el método **mouseEntered** y dentro, vamos a configurar el comportamiento para los botones y labels. Vamos a realizar la **Discriminación de clases**:
+Vamos a ubicarnos en el método **mouseEntered** y dentro, vamos a configurar el comportamiento para los botones y labels. Vamos a realizar la **Discriminación de clases**.
 
-* Primero crearemos los if necesarios para realizar 
+* Primero crearemos los if necesarios para realizar la discriminación:
 
 ```javascript
 @Override
@@ -360,16 +364,17 @@ public void mouseEntered(MouseEvent e) {
 ```
 En el anterior código estamos realizando lo siguiente:
 * Obtenemos el objeto que esta activando el evento.
-* Mediante la palabra clave **instanceof** se esta preguntando si el objeto que ha activado el evento es una **ejemplificación** de la Clase **JButton** o **JLabel**.
+* Mediante la palabra clave **instanceof** se esta preguntando si el objeto que ha activado el evento es una **ejemplificación** de la clase **JButton** o **JLabel**.
 
-Ya hemos realizado la **Discriminación de clases** ahora en cada if es se puede manejar el código correspondiente. Primero vamos a crear dos atributos en la clase **LoginTemplate** para realizar una **representación única de objetos gráficos** tanto para un botón como para un label:
+Ya hemos realizado la **Discriminación de clases** ahora en cada if se puede escribir el código correspondiente. Primero vamos a crear dos atributos en la clase **LoginTemplate** para realizar una **Representación única para objetos gráficos de una misma Clase** tanto para un botón como para un label:
 
+* **Declaración:**
 ```javascript
 // Al Inicio de la Clase
 private JButton boton;
 private JLabel label;
 ```
-
+* **Uso de los atributos:**
 ```javascript
 @Override
 public void mouseEntered(MouseEvent e) {
@@ -384,11 +389,14 @@ public void mouseEntered(MouseEvent e) {
 }
 ```
 
-Noten que para realizar el cambio de color es necesario llamar al servicio **RecursosService**, en este caso se opto por el enfoque en el cual el recurso es pasado desde la clase **Template** del componente y asi la clase **LoginComponent** no se ve en la necesidad de obtener el servicio, ambos enfoques son validos ya que al final de cuentas se esta utilizando un único objeto en memoria del servicio. También se puede notar que se realizó una **representación única de objetos gráficos** tanto para los botones como para los labels, ya que con el caso de los botones todos tenían el mismo comportamiento de cambiar de color de fondo, para los labels es el mismo caso cambiando el color de fuente. 
+Se pueden observar varias cosas a mencionar:
 
-Se utilizo esta vez no variables sino atributos para estos botónes y labels, sin embargo tanto este enfoque como el de el uso de variables funciona de igual manera, ya que estos objetos no van a adicionar nada en memoria, estos objetos son conocidos como **objetos contenedores** y lo único que hacen es apuntar en la memoria al objeto que ya fue previamente creado y que activo el evento.
+* Noten que para realizar el cambio de color es necesario llamar al servicio **RecursosService**, en este caso se opto por el enfoque en el cual el recurso es pasado desde la clase **Template** del componente y asi la clase **LoginComponent** no se ve en la necesidad de obtener el servicio, este enfoque al igual que el usado en el componente **NavegacionUsuario** son validos ya que al final de cuentas se esta utilizando un único objeto en memoria del servicio. 
+* También se puede notar que se realizó una **Representación única para objetos gráficos de una misma Clase** tanto para los botones como para los labels, ya que con el caso de los botones todos tenían el mismo comportamiento de cambiar de color de fondo, para los labels es el mismo caso cambiando el color de fuente. 
+* Noten que ademas solo se agrego la escucha de estos eventos a los botónes y labels que iban a tener un mismo comportamiento, es decir que botones como el **bCerrar** o **bOpcion 1,2 o 3** no están incluidos por que no queremos que realicen este comportamiento y lo mismo pasa con los labels que no se incluyeron.
+* Se utilizo esta vez atributos en lugar de variables para estos botónes y labels, sin embargo tanto este enfoque como el de el uso de variables funciona de igual manera, ya que estos objetos no van a adicionar nada en memoria, estos objetos son conocidos como **Objetos contenedores** y lo único que hacen es apuntar en la memoria al objeto que ya fue previamente creado y que activo el evento.
 
-Recordemos que ahora debemos configurar el método **mouseExited** para que los objetos gráficos regresen a su estado inicial una vez se sale del area del objeto.
+Recordemos que ahora debemos configurar el método **mouseExited** para que los objetos gráficos regresen a su estado inicial una vez se sale del area del objeto, realizamos de nuevo la **Discriminación de clases**, **Representación única para objetos gráficos de una misma Clase**.
 
 ```javascript
 @Override
@@ -413,7 +421,7 @@ Una vez ejecutamos nuestra aplicación podemos ver el resultado esperado:
 
 # Efectos hacia otros objetos Gráficos
 
-Cuando usamos eventos de Mouse también podemos realizar efectos hacia otros objetos gráficos a traves del objeto que activo el evento. Para este caso queremos modificar un poco los cuadros de texto es decir el **JTextField y JPasswordField** de nuestro Login de Usuario. Si nos damos cuenta, cuando una persona quiere escribir su nombre de usuario o su contraseña, tendrá que borrar primero el contenido que está escrito en la caja de texto, esto en realidad es algo molesto para nuestros usuarios, quizás con el uso de los eventos del Mouse podamos ayudarles un poco: cada vez que el usuario de un click al **JTextfield o al JPassworldField** podríamos borrar automáticamente su contenido para que el usuario solamente deba escribir sus datos. También podríamos dar un toque de interacción con el color del texto y los bordes de las cajas de texto poniendo de azul la caja de texto que se este usando mientras que la otra podría quedar en gris. Sin embargo realizar todo esto implica varias cosas:
+Cuando usamos eventos de Mouse también podemos realizar efectos hacia otros objetos gráficos a traves de un objeto que activo el evento. Para este caso queremos modificar un poco los cuadros de texto es decir el **JTextField y JPasswordField** de nuestro Login de Usuario. Si nos damos cuenta, cuando una persona quiere escribir su nombre de usuario o su contraseña, tendrá que borrar primero el contenido que está escrito en la caja de texto, esto en realidad es algo molesto para nuestros usuarios, quizás con el uso de los eventos del Mouse podamos ayudarles un poco: cada vez que el usuario de un click al **JTextfield o al JPassworldField** podríamos borrar automáticamente su contenido para que el usuario solamente deba escribir sus datos. También podríamos dar un toque de interacción con el color del texto y los bordes de las cajas de texto poniendo de azul la caja de texto que se este usando mientras que la otra podría quedar en gris. Sin embargo realizar todo esto implica varias cosas:
 
 * Primero vamos a cambiar los bordes por defecto y el color de fuente de nuestras cajas de texto por grises usando el servicio **RecursosService**:
 <div align='center'>
@@ -446,7 +454,7 @@ public void mouseClicked(MouseEvent e) {
 ```
 una vez realizada la discriminación podemos empezar con nuestro código en ambos casos:
 
-* Lo primero que queremos es que una vez el usuario de click sobre la caja de texto en especifico se bore lo que tenga escrito, para esto debemos obtener el objeto de las cajas de texto en cuestion a traves del objeto de la clase **Template** y el método **get** correspondiente y seguido del método **setText**:
+* Lo primero que queremos es que una vez el usuario de click sobre la caja de texto en especifico se bore lo que tenga escrito, para esto debemos obtener el objeto de las cajas de texto en cuestión a traves del objeto de la clase **Template** y el método **get** correspondiente y seguido del método **setText**, dentro del método basta con ponerle unas comillas vaciás representando que ahora el texto que contendrá estará vació:
 
 ```javascript
 @Override
@@ -460,7 +468,7 @@ public void mouseClicked(MouseEvent e) {
 }
 ```
 
-Si probamos este código funciona, sin embargo tenemos un problema, si el usuario se posiciona en el nombre de usuario y lo escribe, pero luego vuelve a dar click al JTextField **tNombreUsuario**, este de nuevo se borrara:
+Si probamos este código funciona, sin embargo tenemos un problema, si el usuario se posiciona en el JTextField de nombre de usuario se borrara lo que esta escrito y el usuario podrá escribir tranquilamente su nombre de usuario, pero si mas adelante vuelve a dar click al JTextField **tNombreUsuario** para corregir una parte de lo que escribió, este de nuevo se borrara completamente:
 
 <div align='center'>
     <img  src='./resources/MouseEvent4.gif'>
@@ -584,7 +592,9 @@ Ejecutamos nuestra aplicación para comprobar:
     <p>Implementación de efectos hacia otros objetos</p>
 </div>
 
-Queda evidenciado en el anterior código que desde un objeto gráfico que ha activado el evento se pueden crear efectos a otros objetos gráficos ajenos a la activación del evento, incluso si se quisiera cambiar algún otro objeto que no tenga agregado la escucha de estos eventos como por ejemplo una imagen podría obtener el efecto a traves del objeto que activo el evento. 
+Queda evidenciado en el anterior código que desde un objeto gráfico que ha activado el evento se pueden crear efectos a otros objetos gráficos ajenos a la activación del evento, incluso si se quisiera cambiar algún otro objeto que no tenga agregado la escucha de estos eventos como por ejemplo una imagen podría cambiar algún estado de estas a traves del objeto que activo el evento. 
+
+Un ejemplo puntual de esto podría ser el cambio de la imagen del usuario (el icono que acompaña al JTextField), podríamos tener una imagen de color gris al inicio y una vez se de click en el JTexField **tNombreUsuario** podríamos indicar que la imagen cambie por la imagen azul que esta actualmente, aunque el **ImageIcon** no tiene la escucha del evento activada se puede cambiar su estado a traves del JTextField que activo el evento.
 
 # Uso combinado de varios Métodos implementados de eventos
 
@@ -641,7 +651,7 @@ public void moverVentana(){
 }
 ```
 
-* Como vamos a modificar la posición de la ventana principal, es necesario que nuestro evento reciba por parámetros la posición en X y la posición en Y:
+* Como vamos a modificar la posición de la ventana principal, es necesario que nuestro evento reciba por parámetros la nueva posición en X y la nueva posición en Y:
 
 ```javascript
 // DENTRO DE LA CLASE VISTA PRINCIPAL COMPONENT
@@ -649,7 +659,7 @@ public void moverVentana(int posicionX, int posicionY){
 }
 ```
 
-* Ahora para cambiar de posición a la ventana principal debemos indicarle a la parte del componente que representa las partes gráficas del mismo es decir la clase **VistaPrincipalTemplate** y lo haremos con el método **setLocation**:
+* Ahora para cambiar de posición a la ventana principal debemos indicarle a la parte del componente que representa las características gráficas del mismo que va a tener una nueva locación, es decir la clase **VistaPrincipalTemplate** y lo haremos con el método **setLocation**:
 ```javascript
 public void moverVentana(int posicionX, int posicionY){
     this.vistaPrincipalTemplate.setLocation();
@@ -665,13 +675,13 @@ public void moverVentana(int posicionX, int posicionY){
 
 Ya tenemos listo nuestro método que se encarga de mover nuestra ventana, sin embargo para que el componente **barraTitulo** pueda comunicarse con la **vistaPrincipal** es necesario crear una comunicación Bidireccional, para esto debemos crear la inyección de dependencias entre estos dos.
 
-En la clase **VistaPrincipalComponent** nos ubicamos en la **ejemplificación** del componente **BarraTitulo** y dentro de esta ejemplificación vamos a enviar como argumento una referencia a esta misma clase:
+En la clase **VistaPrincipalComponent** nos ubicamos en la **ejemplificación** del componente **BarraTitulo** previamente creada y dentro de esta ejemplificación vamos a enviar como argumento una referencia a esta misma clase:
 ```javascript
 // DENTRO DEL CONSTRUCTOR
 this.barraTituloComponent = new BarraTituloComponent(this);
 ```
 
-Ahora noss ubicamos en nuestra clase **BarraTituloComponent** y obtenemos por parámetro la inyección de la **VistaPrincipal**:
+Ahora nos ubicamos en nuestra clase **BarraTituloComponent** y obtenemos por parámetro la inyección de la **VistaPrincipal**:
 * **Declaración:** 
 ```javascript
 private VistaPrincipalComponent vistaPrincipalComponent;
@@ -685,7 +695,7 @@ public BarraTituloComponent(VistaPrincipalComponent vistaPrincipalComponent) {
 ```
 
 
-Ya tenemos lista nuestra comunicación bidireccional, ahora vamos a configurar nuestros eventos para que este movimiento de la ventana principal sea posible. Seguimos en la clase **BarraTituloComponent**, ahora bien, en la clase anterior nos dimos cuenta que el método **mouseDragged** se activa una vez el usuario mantiene el botón del mouse oprimido y a su vez va arrastrando este. Justamente ese es el comportamiento que buscamos asi que es en este método donde codificaremos.
+Ya tenemos lista nuestra comunicación bidireccional, ahora vamos a configurar nuestros eventos para que este movimiento de la ventana principal sea posible. Seguimos en la clase **BarraTituloComponent**, ahora bien, en la sesión anterior nos dimos cuenta que el método **mouseDragged** se activa una vez el usuario mantiene el botón del mouse oprimido y a su vez va arrastrando el mouse. Justamente ese es el comportamiento que buscamos asi que es en este método donde codificaremos.
 
 Dentro de este método implementado vamos a llamar al método **moverVentana** del la **VentanaPrincipal**:
 ```javascript
@@ -696,7 +706,7 @@ public void mouseDragged(MouseEvent e) {
 ```
 
 Ahora, sabemos que este método exige por parámetros las nuevas coordenadas, recordando un poco la clase anterior habíamos hablado de dos tipos de coordenadas que podemos tomar:
-* **getX()** Coordenadas con respecto a la ventana.
+* **getX()** Coordenadas con respecto al objeto gráfico que activo el evento.
 * **getXOnScreen()** Coordenadas con respecto al monitor. 
 
 Si lo pensamos bien, lo que queremos es mover nuestra ventana sobre el espacio del monitor por lo que en este caso estas son las coordenadas que podemos utilizar.
@@ -717,7 +727,7 @@ Vamos a correr nuestra aplicación y ver que sucede:
 
 Podemos observar que efectivamente nuestra ventana puede ser arrastrada y dejada en la posicion que queramos, sin embargo hay un inconveniente, cada vez que oprimimos el botón del Mouse y arrastramos la ventana principal va a cambiar su posicion inmediatamente a donde esta el puntero y va a empezar a seguir al puntero desde la esquina superior izquierda. Esto se ve muy extraño y antinatural, veamos como podemos corregir este problema.
 
-para empezar como nosotros le estamos indicando a nuestra ventana principal que su nueva posicion va a ser justamente donde se encuentra nuestro puntero del Mouse con respecto al Monitor esta inmediatamente se posicionara en esa locación y empezara ahi, es por esto que la ventana estará siguiendo al Mouse desde su esquina superior izquierda y es por eso que se da ese movimiento antinatural. 
+Para empezar, como nosotros le estamos indicando a nuestra ventana principal que su nueva posicion va a ser justamente donde se encuentra nuestro puntero del Mouse con respecto al Monitor esta inmediatamente se posicionara en esa locación, es por eso que se da ese movimiento antinatural y ademas esto provoca que la ventana este siguiendo al Mouse desde su esquina superior izquierda. 
 
 Debemos tener en cuenta también la posición del puntero del Mouse con respecto a la ventana y ya veremos por que con un ejemplo:
 
@@ -735,8 +745,6 @@ Estando en esa posicion el usuario oprime el botón del Mouse y mientras lo mant
 
 Si en cambio le decimos que su posicion va a ser igual a la posición del puntero con respecto al monitor **menos la posicion de este con respecto a la ventana** la nueva posicion de la ventana sera:
 * **305 - 100 = 205**.
-
-
 
 Podemos ver que la ventana avanzaría los 5 pixeles que buscamos a la derecha, esto es justo lo que buscamos y funciona de igual manera con el eje Y. Ahora vamos a implementar esta solución en nuestro código:
 
@@ -779,13 +787,13 @@ Vamos a ejecutar nuestra aplicación una vez más a ver que sucede:
     <p>Intento de arrastre de la ventana utilizando el evento mouseDragged</p>
 </div>
 
-Ahora tenemos otro problema, al parecer nuestra ventana no se mueve de nuevo aunque nosotros oprimamos el botón del Mouse y lo arrastremos. Esto se debe a que tanto la posición con respecto al monitor como la posición con respecto a la ventana se están actualizando constantemente, volviendo al anterior ejemplo, suponiendo estas mismas condiciones:
+Ahora tenemos otro problema, al parecer nuestra ventana no se mueve de nuevo aunque nosotros oprimamos el botón del Mouse y lo arrastremos. Esto se debe a que tanto **la posición con respecto al monitor** como **la posición con respecto a la ventana** se están actualizando constantemente, volviendo al anterior ejemplo, suponiendo estas mismas condiciones:
 
 *  La posicion **300 en el eje X con respecto al Monitor** del usuario. 
 * La posicion **100 en el eje X con respecto a la ventana**. 
 * Nuestra ventana por su parte esta en la posicion **200 en el eje X con respecto al monitor**.
 
-Si el usuario avanza 5 posiciones a la derecha y actualizamos la posición del monitor y de la ventana ahora estas serán:
+Si el usuario avanza 5 posiciones a la derecha y actualizamos la posición del puntero con respecto al monitor y de la posicion del puntero con respecto a la ventana ahora estas serán:
 * **305 en el eje X con respecto al Monitor** del usuario. 
 * **105 en el eje X con respecto a la ventana**. 
 
@@ -800,7 +808,7 @@ Esto quiere decir que la posición no cambio en nada, ahora si el usuario se mue
 Si restamos estos dos nuevos valores la nueva posición de la ventana sera entonces:
 * **310 - 110 = 200**
 
-Es por eso que nuestra ventana nunca se mueve con esta solución y aquí se resalta algo muy importante **Se debe actualizar la posicion del puntero del Mouse con respecto al Monitor pero la posicion con respecto a la ventana solo se debe capturar una vez al inicio y no actualizarse más**. ¿Cómo podemos realizar esto? Si recordamos un poco nuestra clase anterior, el método **mousePressed** realiza una acción una vez el usuarió presiona el botón del Mouse y no le importa que pueda ocurrir de ahi en adelante asi que podemos aprovechar esta propiedad.
+Es por eso que nuestra ventana nunca se mueve con esta solución y aquí se resalta algo muy importante **Se debe actualizar la posicion del puntero del Mouse con respecto al Monitor** pero **la posicion con respecto a la ventana solo se debe capturar una vez al inicio y no actualizarse más**. ¿Cómo podemos realizar esto? Si recordamos un poco nuestra clase anterior, el método **mousePressed** realiza una acción una vez el usuarió presiona el botón del Mouse y no le importa que pueda ocurrir de ahi en adelante, asi que podemos aprovechar esta propiedad.
 
 Primero vamos a declarar dos atributos ya que serán necesarios para poder manipularlos desde diferentes métodos, estos representaran la posicion inicial tanto en X como en Y:
 
@@ -862,10 +870,14 @@ bMinimizar = sObjGraficos.construirJButton(
 bMinimizar.addActionListener(barraTituloComponent);
 this.add(bMinimizar);
 ```
-Podemos notar que hemos redimensionado una imagen que hemos traído a traves del servicio **RecursosService** y también que de yba vez hemos añadido la escucha a los eventos tipo **ActionListener**.
+Podemos notar que hemos redimensionado una imagen que hemos traído a traves del servicio **RecursosService** y también que de una vez hemos añadido la escucha a los eventos tipo **ActionListener**.
 
-Le vamos a crear su método **get** para que el botón pueda ser obtenido desde la clase **Component** del componente:
+Como ahora es necesario crear una discrimiación de objetos para los dos botones vamos a crear el método **get** para que los botones pueda ser obtenidos desde la clase **Component** de la **barraTitulo**:
 ```javascript
+public JButton getBCerrar (){
+    return bCerrar;
+}
+
 public JButton getBMinimizar (){
     return bMinimizar;
 }
@@ -885,9 +897,10 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-* Ahora como queremos minimizar toda la ventana de esto se debe encargar el componente **ventanaPrincipal** por lo que realizaremos un nuevo método encargado de esto:
+* Ahora como queremos minimizar toda la ventana de esto se debe encargar el componente **ventanaPrincipal** por lo que realizaremos un nuevo método encargado de esto dentro de la clase **VistaPrincipalComponent**:
 
 ```javascript
+// Dentro de la clase VistaPrincipalComponent
 public void minimizar(){
 }
 ```
@@ -930,9 +943,9 @@ Y ya tenemos una ventana que se puede arrastrar a la posición que queramos y ad
 
 # Resultado
 
-Si llegaste hasta aquí **!Felicidades!** has aprendido como utilizar los eventos del Mouse para darle mayor interactividad a nuestro proyecto aprendiste ademas varios aspectos importantes como **Representación única de una clase de objetos gráficos** para representar un mismo comportamiento a varios objetos gráficos, **Discriminación de Clases** para los casos en que varios tipos de objetos de distintas clases quieren usar un mismo evento, **Efectos hacia otros objetos Gráficos** para cambiar cualquier parte de nuestra interfaz mediante un objeto que activa el evento y el **Uso combinado de varios Métodos implementados de eventos** para lograr ciertos comportamientos.
+Si llegaste hasta aquí **!Felicidades!** has aprendido como utilizar los eventos del Mouse para darle mayor interactividad a nuestro proyecto aprendiste ademas varios aspectos importantes como **Representación única para objetos gráficos de una misma Clase** para representar un mismo comportamiento a varios objetos gráficos, **Discriminación de Clases** para los casos en que varios objetos de distintas clases quieren usar un mismo evento, **Efectos hacia otros objetos Gráficos** para cambiar cualquier parte de nuestra interfaz mediante un objeto que activa el evento y el **Uso combinado de varios Métodos implementados de eventos** para lograr ciertos comportamientos.
 
-En la siguiente clase nos vamos a concentrar nuevamente en la arquitectura del proyecto y esta vez vamos a hablar de los **Servicios**.
+En la siguiente clase nos vamos a centrar nuevamente en la arquitectura del proyecto y esta vez vamos a hablar de los **Servicios**.
 
 # Actividad
 

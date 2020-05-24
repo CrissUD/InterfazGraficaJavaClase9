@@ -31,7 +31,7 @@ public class RecursosService {
         fontPequeña = new Font("LuzSans-Book", Font.PLAIN, 12);
         cMano = new Cursor(Cursor.HAND_CURSOR);
         borderInferiorAzul = BorderFactory.createMatteBorder(0, 0, 2, 0, colorAzul);
-        borderInferiorGris = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY);
+        borderInferiorGris = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY);
         borderGris = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2, true);
         iCerrar = new ImageIcon("Clase9/resources/img/cerrar.png");
         iMinimizar = new ImageIcon("Clase9/resources/img/minimizar.png");
