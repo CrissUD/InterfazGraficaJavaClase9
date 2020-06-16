@@ -366,7 +366,7 @@ En el anterior código estamos realizando lo siguiente:
 * Obtenemos el objeto que esta activando el evento.
 * Mediante la palabra clave **instanceof** se esta preguntando si el objeto que ha activado el evento es una **ejemplificación** de la clase **JButton** o **JLabel**.
 
-Ya hemos realizado la **Discriminación de clases** ahora en cada if se puede escribir el código correspondiente. Primero vamos a crear dos atributos en la clase **LoginTemplate** para realizar una **Representación única para objetos gráficos de una misma Clase** tanto para un botón como para un label:
+Ya hemos realizado la **Discriminación de clases** ahora en cada if se puede escribir el código correspondiente. Primero vamos a crear dos atributos en la clase **LoginComponent** para realizar una **Representación única para objetos gráficos de una misma Clase** tanto para un botón como para un label:
 
 * **Declaración:**
 ```javascript
@@ -430,7 +430,7 @@ Cuando usamos eventos de Mouse también podemos realizar efectos hacia otros obj
 </div>
 
 <div align='center'>
-    <img  src='https://i.imgur.com/qKGcl1Z.png'>
+    <img  src='https://i.imgur.com/AzwQLP0.png'>
     <p>Cambio de bordes y color de texto por gris por defecto</p>
 </div>
 
