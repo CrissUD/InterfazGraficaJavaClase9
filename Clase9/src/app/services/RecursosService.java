@@ -14,7 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 public class RecursosService {
-  private Color colorAzul, colorAzulOscuro, colorMorado, colorGrisOscuro, colorGrisClaro;
+  private Color colorPrincipal, colorPrincipalOscuro, colorSecundario, colorGrisOscuro, colorGrisClaro;
   private Font fontTPrincipal, fontTitulo, fontSubtitulo;
   private Font fontMediana, fontLigera;
   private Cursor cMano;
@@ -34,9 +34,9 @@ public class RecursosService {
   }
 
   private void crearColores() {
-    colorAzul = new Color(60, 78, 120);
-    colorAzulOscuro = new Color(30, 48, 90);
-    colorMorado = new Color(151, 0, 158);
+    colorPrincipal = new Color(60, 78, 120);
+    colorPrincipalOscuro = new Color(30, 48, 90);
+    colorSecundario = new Color(151, 0, 158);
     colorGrisOscuro = new Color(80, 80, 80);
     colorGrisClaro = new Color(249, 246, 249);
   }
@@ -52,7 +52,7 @@ public class RecursosService {
   private void crearCursores() { cMano = new Cursor(Cursor.HAND_CURSOR); }
 
   private void crearBordes() {
-    bInferiorAzul = BorderFactory.createMatteBorder(0, 0, 2, 0, colorAzul);
+    bInferiorAzul = BorderFactory.createMatteBorder(0, 0, 2, 0, colorPrincipal);
     bInferiorGris = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY);
     bGris = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2, true);
   }
@@ -74,15 +74,15 @@ public class RecursosService {
     }
   }
 
-  public Color getColorAzul() { return colorAzul; }
+  public Color getColorPrincipal() { return colorPrincipal; }
 
-  public Color getColorAzulOscuro(){ return colorAzulOscuro; }
+  public Color getColorPrincipalOscuro(){ return colorPrincipalOscuro; }
 
   public Border getBInferiorGris(){ return bInferiorGris; }
   
   public Color getColorGrisOscuro() { return colorGrisOscuro; }
   
-  public Color getColorMorado(){ return colorMorado; }
+  public Color getColorSecundario(){ return colorSecundario; }
   
   public Color getColorGrisClaro(){ return colorGrisClaro; }
 

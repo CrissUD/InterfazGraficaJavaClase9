@@ -26,18 +26,18 @@ Para continuar con la lección deberá actualizar la carpeta **resources/images*
 
 **Declaración:**
 ```javascript
-private Color colorAzulOscuro;
+private Color colorPrincipalOscuro;
 ```
 
 **Ejemplificación:**
 ```javascript
 // Dentro del método crearColores
-colorAzulOscuro = new Color(30, 48, 90);
+colorPrincipalOscuro = new Color(30, 48, 90);
 ```
 
 **Método get:**
 ```javascript
-public Color getColorAzulOscuro() { return colorAzulOscuro; }
+public Color getColorPrincipalOscuro() { return colorPrincipalOscuro; }
 ```
 
 * También se crea un borde gris inferior para ser usados en los campos de texto:
@@ -178,7 +178,7 @@ public void mouseEntered(MouseEvent e) {
   if(e.getSource() == navegacionUsuarioTemplate.getBInicio()) {
     navegacionUsuarioTemplate.getBInicio().setContentAreaFilled(true);
     navegacionUsuarioTemplate.getBInicio()
-      .setBackground(RecursosService.getService().getColorAzulOscuro());
+      .setBackground(RecursosService.getService().getColorPrincipalOscuro());
   } 
 }
 ```
@@ -236,7 +236,7 @@ public void mouseEntered(MouseEvent e) {
   JButton boton;
   // if(e.getSource() == navegacionUsuarioTemplate.getBInicio()){
   //     navegacionUsuarioTemplate.getBInicio().setContentAreaFilled(true);
-  //     navegacionUsuarioTemplate.getBInicio().setBackground(RecursosService.getService().getColorAzulOscuro());
+  //     navegacionUsuarioTemplate.getBInicio().setBackground(RecursosService.getService().getColorPrincipalOscuro());
   // } 
 }
 ```
@@ -247,7 +247,7 @@ public void mouseEntered(MouseEvent e) {
   JButton boton = ((JButton) e.getSource());
   // if(e.getSource() == navegacionUsuarioTemplate.getBInicio()){
   //     navegacionUsuarioTemplate.getBInicio().setContentAreaFilled(true);
-  //     navegacionUsuarioTemplate.getBInicio().setBackground(RecursosService.getService().getColorAzulOscuro());
+  //     navegacionUsuarioTemplate.getBInicio().setBackground(RecursosService.getService().getColorPrincipalOscuro());
   // } 
 }
 ```
@@ -265,7 +265,7 @@ Esto implica que la variable **boton** va tener la capacidad de representar cual
 public void mouseEntered(MouseEvent e) {
   JButton boton = ((JButton) e.getSource());
   boton.setContentAreaFilled(true);
-  boton.setBackground(RecursosService.getService().getColorAzulOscuro()); 
+  boton.setBackground(RecursosService.getService().getColorPrincipalOscuro()); 
 }
 ```
 
@@ -291,7 +291,7 @@ Ahora se ha representado e implementado el mismo comportamiento para varios boto
 Se puede observar que en la clase **NavegacionUsuarioComponent** se implemento la interfaz **MouseListener** y esto trajo consigo la implementación automática de los 5 métodos que exige la interfaz. Sin embargo, en este componente solo se hizo uso de dos de los cinco métodos implementados haciendo que los métodos no usados ocupen código y estorben:
 
 <div align='center'>
-    <img  src='https://i.imgur.com/CeNgeUv.png'>
+    <img  src='https://i.imgur.com/5uKF6Ed.png'>
     <p>Métodos sin usar que se implementaron de MouseListener</p>
 </div>
 
@@ -457,7 +457,7 @@ private JLabel label;
 public void mouseEntered(MouseEvent e) {
   if(e.getSource() instanceof JButton){
     boton = ((JButton) e.getSource());
-    boton.setBackground(loginTemplate.getRecursosService().getColorAzulOscuro()); 
+    boton.setBackground(loginTemplate.getRecursosService().getColorPrincipalOscuro()); 
   }
   if(e.getSource() instanceof JLabel){
     label = ((JLabel) e.getSource());
@@ -481,7 +481,7 @@ Ahora se debe configurar el método **mouseExited** para que los objetos gráfic
 public void mouseExited(MouseEvent e) {
   if(e.getSource() instanceof JButton){
     boton = ((JButton) e.getSource());
-    boton.setBackground(loginTemplate.getRecursosService().getColorAzul());  
+    boton.setBackground(loginTemplate.getRecursosService().getColorPrincipal());  
   } 
   if(e.getSource() instanceof JLabel){
     label = ((JLabel) e.getSource());
@@ -637,7 +637,7 @@ Lo siguiente a configurar es el cambio de color dentro del campo de texto una ve
 public void mouseClicked(MouseEvent e) {
   if (e.getSource() instanceof JTextField) {
     text = ((JTextField) e.getSource());
-    text.setForeground(loginTemplate.getRecursosService().getColorAzul());
+    text.setForeground(loginTemplate.getRecursosService().getColorPrincipal());
     text.setBorder(loginTemplate.getRecursosService().getBInferiorAzul());
     if (
       text.getText().equals(placeholders[0]) || 
@@ -660,7 +660,7 @@ public void mouseClicked(MouseEvent e) {
   if (e.getSource() instanceof JTextField) {
     text = ((JTextField) e.getSource());
     label = loginTemplate.getLabels(text);
-    text.setForeground(loginTemplate.getRecursosService().getColorAzul());
+    text.setForeground(loginTemplate.getRecursosService().getColorPrincipal());
     text.setBorder(loginTemplate.getRecursosService().getBInferiorAzul());
     if (
       text.getText().equals(placeholders[0]) || 
@@ -678,7 +678,7 @@ public void mouseClicked(MouseEvent e) {
     text = ((JTextField) e.getSource());
     label = loginTemplate.getLabels(text);
     label.setIcon(loginTemplate.getIAzul(label));
-    text.setForeground(loginTemplate.getRecursosService().getColorAzul());
+    text.setForeground(loginTemplate.getRecursosService().getColorPrincipal());
     text.setBorder(loginTemplate.getRecursosService().getBInferiorAzul());
     if (
       text.getText().equals(placeholders[0]) || 
