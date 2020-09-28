@@ -448,7 +448,7 @@ public class LoginTemplate extends JFrame {
     return null;
   }
 
-  public ImageIcon getIBlue(JLabel label) {
+  public ImageIcon getIAzul(JLabel label) {
     if (label == lUsuario) 
       iDimAux = new ImageIcon(
         iUsuario2.getImage()
@@ -462,7 +462,7 @@ public class LoginTemplate extends JFrame {
     return iDimAux;
   }
 
-  public ImageIcon getIWhite(JLabel label) {
+  public ImageIcon getIBlanca(JLabel label) {
     if (label == lFacebook) 
       iDimAux = new ImageIcon(
         iFacebook1.getImage()
@@ -481,7 +481,7 @@ public class LoginTemplate extends JFrame {
     return iDimAux;
   }
 
-  public ImageIcon getIOrange(JLabel label) {
+  public ImageIcon getINaranja(JLabel label) {
     if (label == lFacebook) 
       iDimAux = new ImageIcon(
         iFacebook2.getImage()
