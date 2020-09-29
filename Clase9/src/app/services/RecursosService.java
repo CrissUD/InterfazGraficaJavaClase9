@@ -14,7 +14,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 public class RecursosService {
-  private Color colorPrincipal, colorPrincipalOscuro, colorSecundario, colorGrisOscuro, colorGrisClaro;
+  private Color colorPrincipal, colorPrincipalOscuro, colorSecundario;
+  private Color colorGrisOscuro, colorGrisClaro;
   private Font fontTPrincipal, fontTitulo, fontSubtitulo;
   private Font fontMediana, fontLigera;
   private Cursor cMano;
