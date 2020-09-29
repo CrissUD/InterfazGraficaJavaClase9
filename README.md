@@ -18,10 +18,12 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 # Antes de Comenzar
 
 ### **Actualización de Imágenes en recursos**
+___
 Para continuar con la lección deberá actualizar la carpeta **resources/images** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase9** seguido de **resources/images**.
 
 
 ### **Ajustes en el servicio Recursos Service**
+___
 * Se crea un nuevo color en el servicio **RecursosService**, y se recuerda el proceso de creación de un objeto decorador dentro de este servicio:
 
 **Declaración:**
@@ -61,7 +63,7 @@ public Border getBInferiorGris() { return bInferiorGris; }
 ***Nota:** Recordar que estos objetos decoradores dentro del servicio **RecursosService** se crean pensando en que serán utilizados en varias partes del proyecto, si ese no es el caso entonces el objeto decorador debe ser creado unicamente en el componente gráfico donde se necesita.*
 
 ### **Ajustes en el componente Login**
-
+___
 Dentro de esta lección se usarán nuevas imágenes para ilustrar los ejemplos del uso de eventos, dentro de la clase **LoginTemplate** se van a crear estas imágenes: 
 
 **Declaración:**
@@ -81,6 +83,7 @@ iYoutube2 = new ImageIcon("Clase9/resources/images/youtube2.png");
 ```
 
 ### **Recordatorio**
+___
 Recordando un poco el recorrido, se ha construido el componente **Configuraciones** el cual cuenta con la implementación de todos los **eventos del Mouse** y con el que el usuario puede interactuar para comprobar el funcionamiento correcto del Mouse. Gracias a esto se exploraron las principales características de cada uno de los eventos y se identificaron aspectos como la activación de estos, los momentos en que dejan de funcionar y casos particulares.
 
 <div align='center'>
